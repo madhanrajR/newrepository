@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test</title>
+    <script src="web3.min.js"></script>
+   </head>
+  <body>
+  <form style="background-color:BurlyWood">
+   <center>
+   <style>
+   p {
+    font-family: verdana;
+    font-size: 20px;
+    color:brown;
+     }
+   </style>
+   <h1>Token</h1>
+   <p>MINT<p>
+   
+  
+  <p>Amount:</p>
+   <input id="amount" type="text" placeholder="amount"/>
+   <input type="button" onclick="dp()" value="enter"><h1 id="b2"></h1><br>
+  <p>TRANSFER<p>
+  <p>To:</p>
+   <input id="address" type="text" placeholder="address"/>
+   <p>Amount:</p>
+  <input id="amount1" type="text" placeholder="amount"/>
+   <input type="button" onclick="dpp()" value="enter"><h1 id="b2"></h1><br>
+   <p>DETAILS<p>
+  <p>Address:</p>
+ <input id="address1" type="text" placeholder="address"/>
+<p>Balance:</p>
+ <input id="balance" type="text" placeholder="balance"/>
+ <input type="button" onclick="tr()" value="balance"><h1 id="b2"></h1><br>
+  
+   </body>
+   <script>
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        var bank= web3.eth.contract([
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"name": "balance",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "totalsupply",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "decimal",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "mint",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	}
+]);
+     var sybex = bank.at('0xbf71677ac7ae8e4bf0d8a6dba47a3b4b5e8d4c17');
+     
+     if(!web3.isConnected()) {
+  
+        console.log("Ok");
+        
+      } else {
+        console.log("no");
+      }
+      web3.version.getNetwork((err, netId) => {
+            switch (netId) {
+              case "1":
+                console.log('This is mainnet')
+                break
+              case "2":
+                console.log('This is the deprecated Morden test network.')
+                break
+              case "3":
+                console.log('This is the ropsten test network.')
+                break
+              case "4":
+                console.log('This is the Rinkeby test network.')
+                break
+              case "42":
+                console.log('This is the Kovan test network.')
+                break
+              default:
+                console.log('This is an unknown network.')
+            }
+        })
+        function dp()
+       {
+        var a=document.getElementById("amount").value;
+        sybex.mint(a,function(error,result){
+                if (!error) {
+                    alert(result);
+                }
+                else{
+                  console.error(error);
+                }
+              });
+	alert("done!...");
+            }
+     function dpp()
+       {
+        var b=document.getElementById("address").value;
+	var c=document.getElementById("amount1").value;
+        sybex.transfer(b,c,function(error,result){
+                if (!error) {
+                    alert(result);
+                }
+                else{
+                  console.error(error);
+                }
+              });
+	  }
+	function tr(){
+        var d=document.getElementById("address1").value;
+	sybex.balanceOf(d,function(error,result){
+                if (!error) {
+                   document.getElementById("balance").value=result;
+		    }
+                else{
+                  console.error(error);
+                }
+              });
+            }
+	
+</script>
+</html>
